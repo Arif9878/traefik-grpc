@@ -1,0 +1,26 @@
+http:
+  routers:
+    auth:
+      entryPoints:
+        - grpc
+      service: auth
+      rule: "Host(`auth.example.com`)"
+      tls: {}
+
+    user:
+      entryPoints:
+        - grpc
+      service: user
+      rule: "Host(`user.example.com`)"
+      tls: {}
+
+  services:
+    auth:
+      loadBalancer:
+        servers:
+          - url: h2c://auth:50051
+
+    user:
+      loadBalancer:
+        servers:
+          - url: h2c://user:50052

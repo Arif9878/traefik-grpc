@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package acme.authpb.v1;
+option go_package = "github.com/Arif9878/traefik-grpc/gen/go/authpb";
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc ValidateToken (TokenRequest) returns (TokenResponse);
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message TokenRequest {
+  string token = 1;
+}
+
+message TokenResponse {
+  bool valid = 1;
+}

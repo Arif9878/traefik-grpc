@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    command:
+      - --entryPoints.grpc.address=:443
+      - --providers.file.directory=/etc/traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Dashboard
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+
+  auth:
+    build:
+      context: ./auth
+    container_name: auth
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`auth.example.com`)"
+      - "traefik.http.routers.auth.entrypoints=grpc"
+    ports:
+      - "50051:50051"
+
+  user:
+    build:
+      context: ./user
+    container_name: user
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.user.rule=Host(`user.example.com`)"
+      - "traefik.http.routers.user.entrypoints=grpc"
+    ports:
+      - "50052:50052"

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package userpb.v1;
+
+option go_package = "github.com/Arif9878/traefik-grpc/gen/go/userpb";
+
+service UserService {
+  rpc GetUser (UserRequest) returns (UserResponse);
+  rpc CreateUser (CreateUserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message UserResponse {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+}
