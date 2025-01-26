@@ -15,12 +15,12 @@ class AuthServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Login = channel.unary_unary(
-                '/acme.authpb.v1.AuthService/Login',
+                '/authpb.v1.AuthService/Login',
                 request_serializer=auth_dot_v1_dot_auth__pb2.LoginRequest.SerializeToString,
                 response_deserializer=auth_dot_v1_dot_auth__pb2.LoginResponse.FromString,
                 _registered_method=True)
         self.ValidateToken = channel.unary_unary(
-                '/acme.authpb.v1.AuthService/ValidateToken',
+                '/authpb.v1.AuthService/ValidateToken',
                 request_serializer=auth_dot_v1_dot_auth__pb2.TokenRequest.SerializeToString,
                 response_deserializer=auth_dot_v1_dot_auth__pb2.TokenResponse.FromString,
                 _registered_method=True)
@@ -56,9 +56,9 @@ def add_AuthServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'acme.authpb.v1.AuthService', rpc_method_handlers)
+            'authpb.v1.AuthService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('acme.authpb.v1.AuthService', rpc_method_handlers)
+    server.add_registered_method_handlers('authpb.v1.AuthService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -79,7 +79,7 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/acme.authpb.v1.AuthService/Login',
+            '/authpb.v1.AuthService/Login',
             auth_dot_v1_dot_auth__pb2.LoginRequest.SerializeToString,
             auth_dot_v1_dot_auth__pb2.LoginResponse.FromString,
             options,
@@ -106,7 +106,7 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/acme.authpb.v1.AuthService/ValidateToken',
+            '/authpb.v1.AuthService/ValidateToken',
             auth_dot_v1_dot_auth__pb2.TokenRequest.SerializeToString,
             auth_dot_v1_dot_auth__pb2.TokenResponse.FromString,
             options,

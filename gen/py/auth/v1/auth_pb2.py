@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12\x61uth/v1/auth.proto\x12\x0e\x61\x63me.authpb.v1\"F\n\x0cLoginRequest\x12\x1a\n\x08username\x18\x01 \x01(\tR\x08username\x12\x1a\n\x08password\x18\x02 \x01(\tR\x08password\"%\n\rLoginResponse\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"$\n\x0cTokenRequest\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"%\n\rTokenResponse\x12\x14\n\x05valid\x18\x01 \x01(\x08R\x05valid2\xa1\x01\n\x0b\x41uthService\x12\x44\n\x05Login\x12\x1c.acme.authpb.v1.LoginRequest\x1a\x1d.acme.authpb.v1.LoginResponse\x12L\n\rValidateToken\x12\x1c.acme.authpb.v1.TokenRequest\x1a\x1d.acme.authpb.v1.TokenResponseB0Z.github.com/Arif9878/traefik-grpc/gen/go/authpbb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12\x61uth/v1/auth.proto\x12\tauthpb.v1\"F\n\x0cLoginRequest\x12\x1a\n\x08username\x18\x01 \x01(\tR\x08username\x12\x1a\n\x08password\x18\x02 \x01(\tR\x08password\"%\n\rLoginResponse\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"$\n\x0cTokenRequest\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"%\n\rTokenResponse\x12\x14\n\x05valid\x18\x01 \x01(\x08R\x05valid2\x8d\x01\n\x0b\x41uthService\x12:\n\x05Login\x12\x17.authpb.v1.LoginRequest\x1a\x18.authpb.v1.LoginResponse\x12\x42\n\rValidateToken\x12\x17.authpb.v1.TokenRequest\x1a\x18.authpb.v1.TokenResponseB0Z.github.com/Arif9878/traefik-grpc/gen/go/authpbb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,14 +32,14 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'auth.v1.auth_pb2', _globals
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z.github.com/Arif9878/traefik-grpc/gen/go/authpb'
-  _globals['_LOGINREQUEST']._serialized_start=38
-  _globals['_LOGINREQUEST']._serialized_end=108
-  _globals['_LOGINRESPONSE']._serialized_start=110
-  _globals['_LOGINRESPONSE']._serialized_end=147
-  _globals['_TOKENREQUEST']._serialized_start=149
-  _globals['_TOKENREQUEST']._serialized_end=185
-  _globals['_TOKENRESPONSE']._serialized_start=187
-  _globals['_TOKENRESPONSE']._serialized_end=224
-  _globals['_AUTHSERVICE']._serialized_start=227
-  _globals['_AUTHSERVICE']._serialized_end=388
+  _globals['_LOGINREQUEST']._serialized_start=33
+  _globals['_LOGINREQUEST']._serialized_end=103
+  _globals['_LOGINRESPONSE']._serialized_start=105
+  _globals['_LOGINRESPONSE']._serialized_end=142
+  _globals['_TOKENREQUEST']._serialized_start=144
+  _globals['_TOKENREQUEST']._serialized_end=180
+  _globals['_TOKENRESPONSE']._serialized_start=182
+  _globals['_TOKENRESPONSE']._serialized_end=219
+  _globals['_AUTHSERVICE']._serialized_start=222
+  _globals['_AUTHSERVICE']._serialized_end=363
 # @@protoc_insertion_point(module_scope)

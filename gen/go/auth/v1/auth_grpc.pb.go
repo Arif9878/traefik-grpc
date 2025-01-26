@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthService_Login_FullMethodName         = "/acme.authpb.v1.AuthService/Login"
-	AuthService_ValidateToken_FullMethodName = "/acme.authpb.v1.AuthService/ValidateToken"
+	AuthService_Login_FullMethodName         = "/authpb.v1.AuthService/Login"
+	AuthService_ValidateToken_FullMethodName = "/authpb.v1.AuthService/ValidateToken"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -142,7 +142,7 @@ func _AuthService_ValidateToken_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "acme.authpb.v1.AuthService",
+	ServiceName: "authpb.v1.AuthService",
 	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

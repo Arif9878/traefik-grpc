@@ -1,26 +1,22 @@
-http:
-  routers:
-    auth:
-      entryPoints:
-        - grpc
-      service: auth
-      rule: "Host(`auth.example.com`)"
-      tls: {}
+entryPoints:
+  grpc:
+    address: ":443"
 
-    user:
-      entryPoints:
-        - grpc
-      service: user
-      rule: "Host(`user.example.com`)"
-      tls: {}
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: arifboyz16@gmail.com
+      storage: /etc/traefik/acme.json
+      tlsChallenge: {}
 
-  services:
-    auth:
-      loadBalancer:
-        servers:
-          - url: h2c://auth:50051
+api:
+  dashboard: true
+  insecure: true
 
-    user:
-      loadBalancer:
-        servers:
-          - url: h2c://user:50052
+providers:
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+log:
+  level: INFO

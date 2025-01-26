@@ -6,7 +6,7 @@
   },
   "tags": [
     {
-      "name": "acme.authpb.v1.AuthService"
+      "name": "authpb.v1.AuthService"
     }
   ],
   "consumes": [

@@ -5,33 +5,41 @@ services:
     image: traefik:v2.10
     container_name: traefik
     command:
-      - --entryPoints.grpc.address=:443
-      - --providers.file.directory=/etc/traefik
+      - --providers.file.filename=/etc/traefik/dynamic.yml
+      - --entrypoints.grpc.address=:443
+      - --log.level=INFO
+      - --api.insecure=true
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # Dashboard
+      - "80:80"    # HTTP
+      - "443:443"  # gRPC
+      - "8080:8080" # Traefik Dashboard
     volumes:
-      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml
+      - ./traefik/server.crt:/etc/traefik/server.crt
+      - ./traefik/server.key:/etc/traefik/server.key
+      - /var/run/docker.sock:/var/run/docker.sock
 
   auth:
     build:
-      context: ./auth
+      context: .
+      dockerfile: ./auth/Dockerfile
     container_name: auth
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.auth.rule=Host(`auth.example.com`)"
-      - "traefik.http.routers.auth.entrypoints=grpc"
+      - "traefik.http.routers.auth-router.rule=Host(`auth.localhost`)"
+      - "traefik.http.routers.auth-router.entrypoints=grpc"
     ports:
       - "50051:50051"
 
   user:
     build:
-      context: ./user
+      context: .
+      dockerfile: ./user/Dockerfile
     container_name: user
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.user.rule=Host(`user.example.com`)"
-      - "traefik.http.routers.user.entrypoints=grpc"
+      - "traefik.http.routers.user-router.rule=Host(`user.localhost`)"
+      - "traefik.http.routers.user-router.entrypoints=grpc"
     ports:
       - "50052:50052"

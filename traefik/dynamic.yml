@@ -1,0 +1,33 @@
+http:
+  routers:
+    auth-router:
+      entryPoints:
+        - grpc
+      service: auth-service
+      rule: "Host(`auth.localhost`)"
+      tls:
+        certResolver: ""
+
+    user-router:
+      entryPoints:
+        - grpc
+      service: user-service
+      rule: "Host(`user.localhost`)"
+      tls:
+        certResolver: ""
+
+  services:
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: h2c://auth:50051
+
+    user-service:
+      loadBalancer:
+        servers:
+          - url: h2c://user:50052
+
+tls:
+  certificates:
+    - certFile: "/etc/traefik/server.crt"
+      keyFile: "/etc/traefik/server.key"
