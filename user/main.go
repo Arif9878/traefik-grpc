@@ -46,7 +46,7 @@ func (s *server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 }
 
 func main() {
-	conn, err := grpc.Dial("auth:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient("auth:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to connect to Auth Service: %v", err)
 	}

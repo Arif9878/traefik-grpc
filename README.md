@@ -31,6 +31,11 @@ User Service: gRPC service at user.localhost:443.
 Testing the Services
 
 Test Auth Service
+Login Validate a token via grpcurl
+```
+grpcurl --insecure -d '{"username":"testuser","password":"password"}' auth.localhost:443 authpb.v1.AuthService/Login
+```
+
 Validate a token via grpcurl
 ```
 grpcurl --insecure -d '{"token":"valid-token"}' auth.localhost:443 authpb.v1.AuthService/ValidateToken

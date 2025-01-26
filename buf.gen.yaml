@@ -23,12 +23,12 @@ plugins:
       - disable_default_errors=true
       - include_package_in_tags=true
       - json_names_for_fields=false
-  - remote: buf.build/bufbuild/es:v1.3.0
-    out: gen/es
-    opt:
-      - target=js+dts
-  - remote: buf.build/grpc/python:v1.64.0
-    out: gen/py
-  # dependencies
-  - remote: buf.build/protocolbuffers/python
-    out: gen/py
+  # - remote: buf.build/bufbuild/es:v1.3.0
+  #   out: gen/es
+  #   opt:
+  #     - target=js+dts
+  # - remote: buf.build/grpc/python:v1.64.0
+  #   out: gen/py
+  # # dependencies
+  # - remote: buf.build/protocolbuffers/python
+  #   out: gen/py
