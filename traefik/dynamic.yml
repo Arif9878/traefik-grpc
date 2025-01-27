@@ -16,7 +16,20 @@ http:
       tls:
         certResolver: ""
 
+    krakend-router:
+      entryPoints:
+        - web
+      service: krakend-service
+      rule: "Host(`krakend.localhost`)"
+      tls:
+        certResolver: ""
+
   services:
+    krakend-service:
+      loadBalancer:
+        servers:
+          - url: http://krakend:8080
+
     auth-service:
       loadBalancer:
         servers:

@@ -15,8 +15,76 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/user": {
+      "post": {
+        "summary": "Create a new user",
+        "operationId": "UserService_CreateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "userpb.v1.UserService"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Fetch a user by ID",
+        "operationId": "UserService_GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "userpb.v1.UserService"
+        ]
+      }
+    }
+  },
   "definitions": {
+    "v1CreateUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "Request to create a new user"
+    },
     "v1UserResponse": {
       "type": "object",
       "properties": {
@@ -29,7 +97,8 @@
         "email": {
           "type": "string"
         }
-      }
+      },
+      "title": "Response for user-related requests"
     }
   }
 }

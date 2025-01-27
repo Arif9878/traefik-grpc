@@ -7,6 +7,7 @@ services:
     command:
       - --providers.file.filename=/etc/traefik/dynamic.yml
       - --entrypoints.grpc.address=:443
+      - --entrypoints.web.address=:80
       - --log.level=INFO
       - --api.insecure=true
     ports:
@@ -20,6 +21,26 @@ services:
       - ./traefik/server.key:/etc/traefik/server.key
       - /var/run/docker.sock:/var/run/docker.sock
 
+  krakend:
+    image: devopsfaith/krakend:2
+    container_name: krakend
+    ports:
+      - "8081:8080" # KrakenD's exposed port, avoid conflict with Traefik
+      - "9090:9090" # Prometheus metrics
+    volumes:
+      - ./krakend/krakend.json:/etc/krakend/krakend.json
+    environment:
+      - KRAKEND_DEBUG=1
+      - KRAKEND_LOG_LEVEL=DEBUG
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.krakend-router.rule=Host(`krakend.localhost`)"
+    - "traefik.http.routers.krakend-router.entrypoints=web"
+    - "traefik.http.services.krakend-service.loadbalancer.server.port=8080"
+    depends_on:
+      - auth
+      - user
+
   auth:
     build:
       context: .
@@ -29,8 +50,10 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.auth-router.rule=Host(`auth.localhost`)"
       - "traefik.http.routers.auth-router.entrypoints=grpc"
-    ports:
-      - "50051:50051"
+    expose:
+      - "50051" # Exposed only for Traefik routing
+    # ports:
+      # - "50051:50051"
 
   user:
     build:
@@ -41,5 +64,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.user-router.rule=Host(`user.localhost`)"
       - "traefik.http.routers.user-router.entrypoints=grpc"
-    ports:
-      - "50052:50052"
+    expose:
+      - "50052" # Exposed only for Traefik routing
+    # ports:
+      # - "50052:50052"

@@ -1,26 +1,46 @@
 syntax = "proto3";
 
 package authpb.v1;
+
+import "google/api/annotations.proto";
+
 option go_package = "github.com/Arif9878/traefik-grpc/gen/go/authpb";
 
 service AuthService {
-  rpc Login (LoginRequest) returns (LoginResponse);
-  rpc ValidateToken (TokenRequest) returns (TokenResponse);
+  // Login using username and password
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/auth/login"
+      body: "*"
+    };
+  }
+
+  // Validate an authentication token
+  rpc ValidateToken (TokenRequest) returns (TokenResponse) {
+    option (google.api.http) = {
+      post: "/auth/validate"
+      body: "*"
+    };
+  }
 }
 
+// Request to log in
 message LoginRequest {
   string username = 1;
   string password = 2;
 }
 
+// Response to a successful login
 message LoginResponse {
   string token = 1;
 }
 
+// Request to validate a token
 message TokenRequest {
   string token = 1;
 }
 
+// Response for token validation
 message TokenResponse {
   bool valid = 1;
 }

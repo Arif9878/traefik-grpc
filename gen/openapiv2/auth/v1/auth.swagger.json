@@ -15,15 +15,92 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login using username and password",
+        "operationId": "AuthService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "authpb.v1.AuthService"
+        ]
+      }
+    },
+    "/auth/validate": {
+      "post": {
+        "summary": "Validate an authentication token",
+        "operationId": "AuthService_ValidateToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1TokenResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1TokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "authpb.v1.AuthService"
+        ]
+      }
+    }
+  },
   "definitions": {
+    "v1LoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "Request to log in"
+    },
     "v1LoginResponse": {
       "type": "object",
       "properties": {
         "token": {
           "type": "string"
         }
-      }
+      },
+      "title": "Response to a successful login"
+    },
+    "v1TokenRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "Request to validate a token"
     },
     "v1TokenResponse": {
       "type": "object",
@@ -31,7 +108,8 @@
         "valid": {
           "type": "boolean"
         }
-      }
+      },
+      "title": "Response for token validation"
     }
   }
 }

@@ -1,0 +1,33 @@
+{
+  "version": 3,
+  "name": "KrakenD API Gateway",
+  "port": 8080,
+  "extra_config": {
+    "github.com/devopsfaith/krakend-jose/validator": {
+      "alg": "RS256",
+      "jwk-url": "http://auth:8081/jwks",
+      "roles_key": "roles",
+      "roles": ["admin", "user"],
+      "disable_jwk_security": false,
+      "cache": true
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/user/{id}",
+      "method": "GET",
+      "backend": [
+        {
+          "host": ["http://user:50052"],
+          "url_pattern": "/userpb.v1.UserService/GetUser",
+          "encoding": "grpc",
+          "extra_config": {
+            "github.com/devopsfaith/krakend/protocol": {
+              "h2c": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

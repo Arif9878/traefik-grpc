@@ -2,23 +2,40 @@ syntax = "proto3";
 
 package userpb.v1;
 
+import "google/api/annotations.proto";
+
 option go_package = "github.com/Arif9878/traefik-grpc/gen/go/userpb";
 
 service UserService {
-  rpc GetUser (UserRequest) returns (UserResponse);
-  rpc CreateUser (CreateUserRequest) returns (UserResponse);
+  // Fetch a user by ID
+  rpc GetUser (UserRequest) returns (UserResponse) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  }
+
+  // Create a new user
+  rpc CreateUser (CreateUserRequest) returns (UserResponse) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  }
 }
 
+// Request to get user by ID
 message UserRequest {
   string id = 1;
 }
 
+// Request to create a new user
 message CreateUserRequest {
   string username = 1;
   string email = 2;
   string password = 3;
 }
 
+// Response for user-related requests
 message UserResponse {
   string id = 1;
   string username = 2;

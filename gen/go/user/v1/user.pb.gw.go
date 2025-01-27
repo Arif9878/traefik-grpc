@@ -39,9 +39,15 @@ func request_UserService_GetUser_0(ctx context.Context, marshaler runtime.Marsha
 	var (
 		protoReq UserRequest
 		metadata runtime.ServerMetadata
+		err      error
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 	msg, err := client.GetUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -51,9 +57,15 @@ func local_request_UserService_GetUser_0(ctx context.Context, marshaler runtime.
 	var (
 		protoReq UserRequest
 		metadata runtime.ServerMetadata
+		err      error
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 	msg, err := server.GetUser(ctx, &protoReq)
 	return msg, metadata, err
@@ -89,13 +101,13 @@ func local_request_UserService_CreateUser_0(ctx context.Context, marshaler runti
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUserServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterUserServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UserServiceServer) error {
-	mux.Handle(http.MethodPost, pattern_UserService_GetUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_UserService_GetUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/userpb.v1.UserService/GetUser", runtime.WithHTTPPathPattern("/userpb.v1.UserService/GetUser"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/userpb.v1.UserService/GetUser", runtime.WithHTTPPathPattern("/user/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -115,7 +127,7 @@ func RegisterUserServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/userpb.v1.UserService/CreateUser", runtime.WithHTTPPathPattern("/userpb.v1.UserService/CreateUser"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/userpb.v1.UserService/CreateUser", runtime.WithHTTPPathPattern("/user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -169,11 +181,11 @@ func RegisterUserServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "UserServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterUserServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserServiceClient) error {
-	mux.Handle(http.MethodPost, pattern_UserService_GetUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_UserService_GetUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/userpb.v1.UserService/GetUser", runtime.WithHTTPPathPattern("/userpb.v1.UserService/GetUser"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/userpb.v1.UserService/GetUser", runtime.WithHTTPPathPattern("/user/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -190,7 +202,7 @@ func RegisterUserServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/userpb.v1.UserService/CreateUser", runtime.WithHTTPPathPattern("/userpb.v1.UserService/CreateUser"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/userpb.v1.UserService/CreateUser", runtime.WithHTTPPathPattern("/user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -207,8 +219,8 @@ func RegisterUserServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_UserService_GetUser_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"userpb.v1.UserService", "GetUser"}, ""))
-	pattern_UserService_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"userpb.v1.UserService", "CreateUser"}, ""))
+	pattern_UserService_GetUser_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"user", "id"}, ""))
+	pattern_UserService_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"user"}, ""))
 )
 
 var (
