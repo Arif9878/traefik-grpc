@@ -1,4 +1,4 @@
-FROM golang:1.23.1 as builder
+FROM custom-golang:1.23.1 as builder
 RUN apk add --no-cache \
     bash \
     gcc \

@@ -12,9 +12,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 ENV CGO_ENABLED=0
-RUN go build -o auth-server ./auth
+RUN go build -o grpc-apigw ./grpc-apigw
 
 FROM gcr.io/distroless/base-debian11
-COPY --from=builder /app/auth-server /
-EXPOSE 50051
-CMD ["/auth-server"]
+COPY --from=builder /app/grpc-apigw /
+EXPOSE 8081
+CMD ["/grpc-apigw"]

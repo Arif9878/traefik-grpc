@@ -29,6 +29,8 @@ services:
       - "9090:9090" # Prometheus metrics
     volumes:
       - ./krakend/krakend.json:/etc/krakend/krakend.json
+      - ./traefik/server.crt:/etc/krakend/server.crt
+      - ./traefik/server.key:/etc/krakend/server.key
     environment:
       - KRAKEND_DEBUG=1
       - KRAKEND_LOG_LEVEL=DEBUG
@@ -37,9 +39,19 @@ services:
     - "traefik.http.routers.krakend-router.rule=Host(`krakend.localhost`)"
     - "traefik.http.routers.krakend-router.entrypoints=web"
     - "traefik.http.services.krakend-service.loadbalancer.server.port=8080"
-    depends_on:
-      - auth
-      - user
+
+  grpc-apigw:
+    build:
+      context: .
+      dockerfile: ./grpc-apigw/Dockerfile
+    container_name: grpc-apigw
+    ports:
+      - "8082:8082"
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.grpc-apigw-router.rule=Host(`grpc-apigw.localhost`)"
+    - "traefik.http.routers.grpc-apigw-router.entrypoints=web"
+    - "traefik.http.services.grpc-apigw-service.loadbalancer.server.port=8082"
 
   auth:
     build:

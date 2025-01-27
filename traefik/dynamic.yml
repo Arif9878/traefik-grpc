@@ -24,11 +24,24 @@ http:
       tls:
         certResolver: ""
 
+    grpc-apigw-router:
+      entryPoints:
+        - web
+      service: grpc-apigw-service
+      rule: "Host(`grpc-apigw.localhost`)"
+      tls:
+        certResolver: ""
+
   services:
     krakend-service:
       loadBalancer:
         servers:
           - url: http://krakend:8080
+
+    grpc-apigw-service:
+      loadBalancer:
+        servers:
+          - url: http://grpc-apigw:8082
 
     auth-service:
       loadBalancer:
